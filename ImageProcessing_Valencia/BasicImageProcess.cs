@@ -2,44 +2,46 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Security;
 using System.Text;
 using System.Windows.Forms;
-using static System.Net.Mime.MediaTypeNames;
 
-namespace Tabada_IntSys1_ImageProcessingProgram
+namespace ImageProcessing_Valencia
 {
     internal class BasicImageProcess
     {
         private Bitmap _inputImage, _outputImage;
+
         public BasicImageProcess()
         {
             _inputImage = null;
             _outputImage = null;
         }
 
-        private void SetInput(Bitmap bmp)
+        private void SetInputImage(Bitmap bmp)
         {
             _inputImage = bmp;
         }
-        private void SetOutput(Bitmap bmp)
+
+        private void SetOutputImage(Bitmap bmp)
         {
             _outputImage = bmp;
         }
 
-        public Bitmap OnLoadImage(string filePath)
+        public Bitmap LoadImage(string filePath)
         {
             if (string.IsNullOrEmpty(filePath))
                 return null;
 
-            SetInput(new Bitmap(filePath));
+            SetInputImage(new Bitmap(filePath));
             return _inputImage;
         }
-        public bool isOutputNull()
+
+        public bool IsOutputNull()
         {
             return _outputImage == null;
         }
-        public Bitmap OnSaveImage(string filePath)
+
+        public Bitmap SaveImage(string filePath)
         {
             if (string.IsNullOrEmpty(filePath) || _outputImage == null)
                 return null;
@@ -48,13 +50,13 @@ namespace Tabada_IntSys1_ImageProcessingProgram
             return _outputImage;
         }
 
-        public void OnClear()
+        public void ClearImages()
         {
             _inputImage = null;
             _outputImage = null;
         }
 
-        public Bitmap OnCopy()
+        public Bitmap CopyImage()
         {
             if (_inputImage == null)
                 return null;
@@ -65,16 +67,16 @@ namespace Tabada_IntSys1_ImageProcessingProgram
             {
                 for (int x = 0; x < _inputImage.Width; x++)
                 {
-                    System.Drawing.Color pixel = _inputImage.GetPixel(x, y);
+                    Color pixel = _inputImage.GetPixel(x, y);
                     bmp.SetPixel(x, y, pixel);
                 }
             }
 
-            SetOutput(bmp);
+            SetOutputImage(bmp);
             return _outputImage;
         }
 
-        public Bitmap OnInvert()
+        public Bitmap InvertImage()
         {
             if (_inputImage == null)
                 return null;
@@ -85,19 +87,19 @@ namespace Tabada_IntSys1_ImageProcessingProgram
             {
                 for (int x = 0; x < _inputImage.Width; x++)
                 {
-                    System.Drawing.Color pixel = _inputImage.GetPixel(x, y);
+                    Color pixel = _inputImage.GetPixel(x, y);
                     int r = 255 - pixel.R;
                     int g = 255 - pixel.G;
                     int b = 255 - pixel.B;
-                    bmp.SetPixel(x, y, System.Drawing.Color.FromArgb(r, g, b));
+                    bmp.SetPixel(x, y, Color.FromArgb(r, g, b));
                 }
             }
 
-            SetOutput(bmp);
+            SetOutputImage(bmp);
             return _outputImage;
         }
 
-        public Bitmap OnGrayScale()
+        public Bitmap ConvertToGrayscale()
         {
             if (_inputImage == null)
                 return null;
@@ -108,17 +110,17 @@ namespace Tabada_IntSys1_ImageProcessingProgram
             {
                 for (int x = 0; x < _inputImage.Width; x++)
                 {
-                    System.Drawing.Color pixel = _inputImage.GetPixel(x, y);
+                    Color pixel = _inputImage.GetPixel(x, y);
                     int gray = (pixel.R + pixel.G + pixel.B) / 3;
-                    bmp.SetPixel(x, y, System.Drawing.Color.FromArgb(gray, gray, gray));
+                    bmp.SetPixel(x, y, Color.FromArgb(gray, gray, gray));
                 }
             }
 
-            SetOutput(bmp);
+            SetOutputImage(bmp);
             return _outputImage;
         }
 
-        public Bitmap OnSepia()
+        public Bitmap ApplySepia()
         {
             if (_inputImage == null)
                 return null;
@@ -129,7 +131,7 @@ namespace Tabada_IntSys1_ImageProcessingProgram
             {
                 for (int x = 0; x < _inputImage.Width; x++)
                 {
-                    System.Drawing.Color pixel = _inputImage.GetPixel(x, y);
+                    Color pixel = _inputImage.GetPixel(x, y);
 
                     int tr = (int)(0.393 * pixel.R + 0.769 * pixel.G + 0.189 * pixel.B);
                     int tg = (int)(0.349 * pixel.R + 0.686 * pixel.G + 0.168 * pixel.B);
@@ -139,33 +141,34 @@ namespace Tabada_IntSys1_ImageProcessingProgram
                     int g = Math.Min(255, tg);
                     int b = Math.Min(255, tb);
 
-                    bmp.SetPixel(x, y, System.Drawing.Color.FromArgb(r, g, b));
+                    bmp.SetPixel(x, y, Color.FromArgb(r, g, b));
                 }
             }
 
-            SetOutput(bmp);
+            SetOutputImage(bmp);
             return _outputImage;
         }
 
- 
-        public Bitmap OnHistogram()
+        public Bitmap GenerateHistogram()
         {
             if (_inputImage == null)
                 return null;
-            int histWidth = 256;
-            int histHeight = 120; 
 
+            int histWidth = 256;
+            int histHeight = 120;
             Bitmap histBmp = new Bitmap(histWidth, histHeight);
+
             int[] histogram = new int[256];
             for (int y = 0; y < _inputImage.Height; y++)
             {
                 for (int x = 0; x < _inputImage.Width; x++)
                 {
-                    System.Drawing.Color pixel = _inputImage.GetPixel(x, y);
+                    Color pixel = _inputImage.GetPixel(x, y);
                     int gray = (pixel.R + pixel.G + pixel.B) / 3;
                     histogram[gray]++;
                 }
             }
+
             int max = histogram.Max();
             using (Graphics g = Graphics.FromImage(histBmp))
             {
@@ -178,15 +181,13 @@ namespace Tabada_IntSys1_ImageProcessingProgram
                 }
 
                 g.DrawLine(Pens.Black, 0, histHeight - 20, histWidth - 1, histHeight - 20);
-
                 g.DrawLine(Pens.Black, 0, histHeight - 20, 0, 0);
 
                 int[] xLabels = { 0, 64, 128, 192, 255 };
                 foreach (int label in xLabels)
                 {
-                    int x = label;
-                    g.DrawLine(Pens.Gray, x, histHeight - 20, x, histHeight - 15);
-                    g.DrawString(label.ToString(), new Font("Arial", 7), Brushes.Black, x - 10, histHeight - 15);
+                    g.DrawLine(Pens.Gray, label, histHeight - 20, label, histHeight - 15);
+                    g.DrawString(label.ToString(), new Font("Arial", 7), Brushes.Black, label - 10, histHeight - 15);
                 }
 
                 int[] yLabels = { 0, max / 2, max };
@@ -209,7 +210,7 @@ namespace Tabada_IntSys1_ImageProcessingProgram
                 g.DrawImage(histBmp, 0, 0, 500, 420);
             }
 
-            SetOutput(scaledBmp);
+            SetOutputImage(scaledBmp);
             return _outputImage;
         }
     }

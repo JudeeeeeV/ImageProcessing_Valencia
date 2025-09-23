@@ -204,7 +204,6 @@ namespace ImageProcessing_Valencia
             this.lblSubtracted.Size = new System.Drawing.Size(133, 20);
             this.lblSubtracted.TabIndex = 15;
             this.lblSubtracted.Text = "Subtracted Image";
-            this.lblSubtracted.Click += new System.EventHandler(this.lblSubtracted_Click);
             // 
             // btnSaveBasicImage
             // 
@@ -372,7 +371,6 @@ namespace ImageProcessing_Valencia
             this.btnLoadBasicImage.TabIndex = 13;
             this.btnLoadBasicImage.Text = "Load Image";
             this.btnLoadBasicImage.UseVisualStyleBackColor = false;
-            this.btnLoadBasicImage.Click += new System.EventHandler(this.btnLoadBasicImage_Click);
             // 
             // pbInput
             // 
@@ -419,6 +417,8 @@ namespace ImageProcessing_Valencia
             ((System.ComponentModel.ISupportInitialize)(this.pbInput)).EndInit();
             this.tcMain.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.btnLoadBasicImage.Click += new System.EventHandler(this.btnLoadInputImage_Click);
+            this.btnSubtractImages.Click += new System.EventHandler(this.btnSubtractImages_Click);
 
         }
 

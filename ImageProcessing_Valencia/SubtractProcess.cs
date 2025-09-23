@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 
-namespace Tabada_IntSys1_ImageProcessingProgram
+namespace ImageProcessing_Valencia
 {
     internal class SubtractProcess
     {
         private Bitmap _foreground, _background, _outputImage;
+
         public SubtractProcess()
         {
             _foreground = null;
@@ -16,40 +14,45 @@ namespace Tabada_IntSys1_ImageProcessingProgram
             _outputImage = null;
         }
 
-        private void SetForeground(Bitmap bmp)
+        private void SetForegroundImage(Bitmap bmp)
         {
             _foreground = bmp;
         }
-        private void SetBackground(Bitmap bmp)
+
+        private void SetBackgroundImage(Bitmap bmp)
         {
             _background = bmp;
         }
-        private void SetOutput(Bitmap bmp)
+
+        private void SetOutputImage(Bitmap bmp)
         {
             _outputImage = bmp;
         }
 
-        public Bitmap OnLoadForeground(string filePath)
+        public Bitmap LoadForeground(string filePath)
         {
             if (string.IsNullOrEmpty(filePath))
                 return null;
 
-            SetForeground(new Bitmap(filePath));
+            SetForegroundImage(new Bitmap(filePath));
             return _foreground;
         }
-        public Bitmap OnLoadBackground(string filePath)
+
+        public Bitmap LoadBackground(string filePath)
         {
             if (string.IsNullOrEmpty(filePath))
                 return null;
 
-            SetBackground(new Bitmap(filePath));
+            SetBackgroundImage(new Bitmap(filePath));
             return _background;
         }
-        public bool isOutputNull()
+
+        public bool IsOutputNull()
         {
             return _outputImage == null;
         }
-        public Bitmap OnSaveImage(string filePath)
+
+        public Bitmap SaveImage(string filePath)
         {
             if (string.IsNullOrEmpty(filePath) || _outputImage == null)
                 return null;
@@ -57,14 +60,15 @@ namespace Tabada_IntSys1_ImageProcessingProgram
             _outputImage.Save(filePath);
             return _outputImage;
         }
-        public void OnClear()
+
+        public void ClearImages()
         {
             _foreground = null;
             _background = null;
             _outputImage = null;
         }
 
-        public Bitmap OnSubtract()
+        public Bitmap SubtractImages()
         {
             if (_foreground == null || _background == null)
                 return null;
@@ -72,9 +76,10 @@ namespace Tabada_IntSys1_ImageProcessingProgram
             int width = Math.Min(_foreground.Width, _background.Width);
             int height = Math.Min(_foreground.Height, _background.Height);
 
-            Color colorToSubtract = Color.FromArgb(0, 255, 0); 
+            // Color to subtract (green screen effect)
+            Color colorToSubtract = Color.FromArgb(0, 255, 0);
             int greyCTS = (colorToSubtract.R + colorToSubtract.G + colorToSubtract.B) / 3;
-            int threshold = 5; 
+            int threshold = 5;
 
             Bitmap bmp = new Bitmap(width, height);
 
@@ -84,6 +89,7 @@ namespace Tabada_IntSys1_ImageProcessingProgram
                 {
                     Color fgPixel = _foreground.GetPixel(x, y);
                     Color bgPixel = _background.GetPixel(x, y);
+
                     int greyFG = (fgPixel.R + fgPixel.G + fgPixel.B) / 3;
                     int subtractValue = Math.Abs(greyFG - greyCTS);
 
@@ -94,7 +100,7 @@ namespace Tabada_IntSys1_ImageProcessingProgram
                 }
             }
 
-            SetOutput(bmp);
+            SetOutputImage(bmp);
             return _outputImage;
         }
     }
