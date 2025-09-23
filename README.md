@@ -27,7 +27,10 @@ It was created as part of the **Intelligent Systems 1** course assignment.
 ## How to Run
 
 1. Clone this repository.  
-2. Open the solution in **Visual Studio**.  
-3. Build and run the project.  
+2. Locate the `ImageProcessing_Valencia.exe` file in the root folder of the project.  
+3. Double-click `ImageProcessing_Valencia.exe` to launch the calculator.  
+
+No installation or setup required.
+
 
 ---
