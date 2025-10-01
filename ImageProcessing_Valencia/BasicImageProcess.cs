@@ -213,5 +213,130 @@ namespace ImageProcessing_Valencia
             SetOutputImage(scaledBmp);
             return _outputImage;
         }
+        public Bitmap SmoothFilter()
+        {
+            if (_inputImage == null)
+                return null;
+
+            Bitmap bmp = (Bitmap)_inputImage.Clone();
+            bool success = FilterProcess.Smooth(bmp);
+
+            if (!success)
+                return null;
+
+            SetOutputImage(bmp);
+            return _outputImage;
+        }
+
+        public Bitmap GaussianBlurFilter()
+        {
+            if (_inputImage == null)
+                return null;
+
+            Bitmap bmp = (Bitmap)_inputImage.Clone();
+           
+            for (int i = 0; i < 50; i++)
+                FilterProcess.GaussianBlur(bmp);
+
+
+            SetOutputImage(bmp);
+            return _outputImage;
+        }
+
+        public Bitmap SharpenFilter()
+        {
+            if (_inputImage == null)
+                return null;
+            Bitmap bmp = (Bitmap)_inputImage.Clone();
+            bool success = FilterProcess.Sharpen(bmp);
+            if (!success)
+                return null;
+            SetOutputImage(bmp);
+            return _outputImage;
+        }
+
+        public Bitmap MeanRemovalFilter()
+        {
+            if (_inputImage == null)
+                return null;
+            Bitmap bmp = (Bitmap)_inputImage.Clone();
+            bool success = FilterProcess.MeanRemoval(bmp);
+            if (!success)
+                return null;
+            SetOutputImage(bmp);
+            return _outputImage;
+        }
+
+        public Bitmap LaplascianEmboss()
+        {
+            if(_inputImage == null)
+                return null;
+            Bitmap bmp = (Bitmap)_inputImage.Clone();
+            bool success = FilterProcess.Emboss(bmp);
+            if (!success)
+                return null;
+            SetOutputImage(bmp);
+            return _outputImage;
+        }
+
+        public Bitmap HorizontalVerticalEmboss()
+        {   
+            if (_inputImage == null)
+                return null;
+            Bitmap bmp = (Bitmap)_inputImage.Clone();
+            bool success = FilterProcess.EmbossHorizontalVertical(bmp);
+            if (!success)
+                return null;
+            SetOutputImage(bmp);
+            return _outputImage;
+        }
+
+        public Bitmap AllDirectionsEmboss()
+        {
+            if (_inputImage == null)
+                return null;
+            Bitmap bmp =    (Bitmap)_inputImage.Clone();
+            bool success = FilterProcess.EmbossAllDirections(bmp);
+            if (!success)
+                return null;
+            SetOutputImage(bmp);
+            return _outputImage;
+        }
+
+        public Bitmap LossyEmboss()
+        {
+            if (_inputImage == null)
+                return null;
+            Bitmap bmp = (Bitmap)_inputImage.Clone();
+            bool success = FilterProcess.EmbossLossy(bmp);
+            if (!success)
+                return null;
+            SetOutputImage(bmp);
+            return _outputImage;
+        }
+
+        public Bitmap HorizontalOnlyEmboss()
+        {
+            if (_inputImage == null)
+                return null;
+            Bitmap bmp = (Bitmap)_inputImage.Clone(); 
+            bool success = FilterProcess.EmbossHorizontalOnly(bmp);
+            if (!success)
+                return null;
+            SetOutputImage(bmp);
+            return _outputImage;
+        }
+
+        public Bitmap VerticalOnlyEmboss()
+        {
+            if (_inputImage == null)
+                return null;
+            Bitmap bmp = (Bitmap)_inputImage.Clone(); 
+            bool success = FilterProcess.EmbossVerticalOnly(bmp);
+            if (!success)
+                return null;
+            SetOutputImage(bmp);
+            return _outputImage;
+        }
     }
 }
