@@ -18,11 +18,37 @@ It was created as part of the **Intelligent Systems 1** course assignment.
   - Load foreground and background images  
   - Subtract foreground from background  
   - Save subtracted result  
-  - Clear loaded images  
+  - Clear loaded images
+ 
+- **Convolution Matrix Mode**
+  - Smooth filter  
+  - Sharpen filter
+  - Gaussian blur filter 
+  - Mean removal filter
+  - Emboss filters:
+    - Laplacian
+    - Horizontal + Vertical
+    - All directions
+    - Lossy
+    - Horizontal only
+    - Vertical only
+   
+- **Webcam Mode**
+  - Detect and select available webcams  
+  - Enable/disable live webcam preview
+  - Gaussian blur filter 
+  - Mean removal filter
+  - Apply real-time filters to live feed:
+    - Apply invert filter  
+    - Convert to grayscale  
+    - Apply sepia filter
+    - Subtract (with threshold detection)
+  - Show both original and processed webcam output side by side  
 
 - **User-Friendly Interface**
-  - Simple layout with dedicated sections for basic operations and subtraction  
-  - Preview of input, output, foreground, and background images  
+  - Simple layout with dedicated sections for each mode (Basic, Subtract, Convolution, Webcam) 
+  - Preview of input, output, foreground, and background images
+  - Organized buttons for easy access to each operation 
 
 ## How to Run
 
